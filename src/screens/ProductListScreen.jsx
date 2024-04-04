@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import Card from '../components/Card';
+import { StyleSheet, View } from 'react-native';
+import ListContainer from "../container/ListContainer";
+
 
 export default function ProductListScreen() {
   const url = 'https://dmrn-at1-default-rtdb.europe-west1.firebasedatabase.app/products.json'
@@ -28,10 +29,7 @@ export default function ProductListScreen() {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={products}
-        renderItem={({ item }) => <Card item={item} />}
-        keyExtractor={(item, index) => index.toString()}/>
+      <ListContainer products={products}/>
     </View>
   );
 }

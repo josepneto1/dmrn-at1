@@ -1,15 +1,25 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import Routes from '../routes';
+
 
 export default function Card({ item }) {
+
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate(Routes.ProductDetailScreen, { product: item });
+  };
+  
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePress}>
       <Image style={styles.image} source={{ uri: item.image }} />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.description}>{item.description}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
