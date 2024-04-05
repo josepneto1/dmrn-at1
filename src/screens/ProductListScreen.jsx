@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import ListContainer from "../container/ListContainer";
 
 
 export default function ProductListScreen() {
   const url = 'https://dmrn-at1-default-rtdb.europe-west1.firebasedatabase.app/products.json'
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // setIsLoading(true);
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -16,7 +16,7 @@ export default function ProductListScreen() {
         setProducts(convertedProducts);
       })
       .catch((error) => console.error("Error fetching products:", error))
-      // .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false));
   }, []);
 
   function converter(data) {
@@ -28,9 +28,19 @@ export default function ProductListScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <ListContainer products={products}/>
-    </View>
+    <>
+      {isLoading ? (
+          <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+      ) : (
+        <>
+          <View style={styles.container}>
+            <ListContainer products={products}/>
+          </View>
+        </>
+      )}
+    </>
   );
 }
 
